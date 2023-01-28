@@ -3,37 +3,25 @@ package main.model;
 import java.util.UUID;
 
 public class Wagon {
-    private final UUID id;
-    private final WagonType wagonType;
-    private final int number;
+    protected final UUID id;
+    protected final WagonType wagonType;
 
-    public Wagon(WagonType wagonType, int number) {
+    public Wagon(WagonType wagonType) {
         this.id = UUID.randomUUID();
         this.wagonType = wagonType;
-        this.number = number;
     }
 
     public Wagon(Wagon wagon) {
-        this.id = wagon.getId();
+        this.id = wagon.getWagonId();
         this.wagonType = wagon.getWagonType();
-        this.number = wagon.getNumber();
     }
 
-    @Override
-    public String toString() {
-        return "Wagon id: '" + id + "', wagonType: " + wagonType.getComfortTypeName() +
-                ", number " + number;
+    public Wagon(UUID id, WagonType type) {
+        this.id = id;
+        this.wagonType = type;
     }
 
-    public String toSql() {
-        return "('" + id + "', '" + wagonType.getId() + "', " + number + ")";
-    }
-
-    public String toFile() {
-        return id + " " + wagonType.getId() + " " + number;
-    }
-
-    public UUID getId() {
+    public UUID getWagonId() {
         return id;
     }
 
@@ -41,7 +29,8 @@ public class Wagon {
         return wagonType;
     }
 
-    public int getNumber() {
-        return number;
+    public String toFile() {
+        // TODO: 28.01.2023 Implement
+        return null;
     }
 }
