@@ -15,6 +15,10 @@ public class PrintTrainCommand extends Command {
 
     @Override
     public void execute() {
-        trainBuilder.printTrain(id);
+        if (id != null) {
+            trainBuilder.printTrain(id);
+        } else {
+            System.out.println("Incorrect entered data!");
+        }
     }
 }

@@ -127,7 +127,7 @@ public class TrainBuilder {
                 ArrayList<AssignedWagon> wagons = train.getWagons();
                 for (int i = 0; i < wagons.size() - 1; i++) {
                     for (int j = 0; j < wagons.size() - i - 1; j++) {
-                        if (wagons.get(j).getWagonType().getComfortType().ordinal() <= wagons.get(i + 1).getWagonType().getComfortType().ordinal()) {
+                        if (wagons.get(j).getWagonType().getComfortType().ordinal() <= wagons.get(j + 1).getWagonType().getComfortType().ordinal()) {
                             AssignedWagon temp = wagons.get(j + 1);
                             wagons.set(j + 1, wagons.get(j));
                             wagons.set(j, temp);

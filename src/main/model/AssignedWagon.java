@@ -30,8 +30,8 @@ public class AssignedWagon extends Wagon {
 
     @Override
     public String toString() {
-        return "Wagon id: '" + id + "', wagonType: " + wagonType.getComfortTypeName() +
-                ", number " + number;
+        return "Wagon type: " + wagonType + ", wagons number " + number + "\n\t" +
+                "id: Wagon id: " + id;
     }
 
     // TODO: 27.01.2023  Change realization
@@ -40,7 +40,7 @@ public class AssignedWagon extends Wagon {
     }
 
     public String toFile() {
-        return id + " " + wagonType.toFile() + " " + assignedId + " " + trainId + " " + number;
+        return id + " " + wagonType.toFile() + " " + assignedId + " " + trainId + " " + number + "\n";
     }
 
     public UUID getAssignedId() {

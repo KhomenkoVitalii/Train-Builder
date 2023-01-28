@@ -36,7 +36,8 @@ public class Train {
 
     @Override
     public String toString() {
-        return "name: " + name + ", code: " + code;
+        return "Name: " + name + ", code: " + code + "\n\t" +
+                "Id: " + id;
     }
 
     public String toSQL() {
@@ -44,7 +45,7 @@ public class Train {
     }
 
     public String toFile() {
-        return id + " " + name + " " + code;
+        return id + " " + name + " " + code + "\n";
     }
 
     public UUID getId() {

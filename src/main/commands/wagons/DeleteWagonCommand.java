@@ -15,6 +15,9 @@ public class DeleteWagonCommand extends Command {
 
     @Override
     public void execute() {
-        trainBuilder.deleteWagon(id);
+        if (id != null) {
+            trainBuilder.deleteWagon(id);
+        } else System.out.println("Incorrect entered data!");
+
     }
 }

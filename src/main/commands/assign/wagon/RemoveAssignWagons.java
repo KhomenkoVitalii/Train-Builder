@@ -18,6 +18,10 @@ public class RemoveAssignWagons extends Command {
 
     @Override
     public void execute() {
-        trainBuilder.removeWagonFromTheTrain(trainId, assignedId);
+        if (trainId != null && assignedId != null) {
+            trainBuilder.removeWagonFromTheTrain(trainId, assignedId);
+        } else {
+            System.out.println("Incorrect entered data!");
+        }
     }
 }

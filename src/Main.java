@@ -1,5 +1,8 @@
+import main.app.TransportApp;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println();
+        TransportApp app = new TransportApp();
+        app.initUI();
     }
 }

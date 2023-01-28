@@ -20,6 +20,10 @@ public class AddAssignWagonCommand extends Command {
 
     @Override
     public void execute() {
-        trainBuilder.addWagonToTheTrain(trainId, wagonId, number);
+        if (trainId != null && wagonId != null) {
+            trainBuilder.addWagonToTheTrain(trainId, wagonId, number);
+        } else {
+            System.out.println("Incorrect entered data!");
+        }
     }
 }

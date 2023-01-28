@@ -16,6 +16,10 @@ public class SortWagonsCommand extends Command {
 
     @Override
     public void execute() {
-        trainBuilder.sortWagons(trainId);
+        if (trainId != null) {
+            trainBuilder.sortWagons(trainId);
+        } else {
+            System.out.println("Incorrect entered data!");
+        }
     }
 }

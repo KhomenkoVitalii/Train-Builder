@@ -29,7 +29,13 @@ public class Wagon {
         return wagonType;
     }
 
+    @Override
+    public String toString() {
+        return "Wagon type: " + wagonType + "\n\t" +
+                "id: " + id;
+    }
+
     public String toFile() {
-        return id + " " + wagonType.toFile();
+        return id + " " + wagonType.toFile() + "\n";
     }
 }
