@@ -30,7 +30,6 @@ public class Wagon {
     }
 
     public String toFile() {
-        // TODO: 28.01.2023 Implement
-        return null;
+        return id + " " + wagonType.toFile();
     }
 }

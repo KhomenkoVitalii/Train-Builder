@@ -39,7 +39,7 @@ public class WagonType {
         return "('" + id + "', '" + comfortType.name() + "', " + seatsNumber + ", " + maxThingsWeightPerPerson + ")";
     }
 
-    public String toFileType() {
+    public String toFile() {
         return id + " " + comfortType.name() + " " + seatsNumber + " " + maxThingsWeightPerPerson;
     }
 

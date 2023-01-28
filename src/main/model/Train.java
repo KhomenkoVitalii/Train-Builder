@@ -62,4 +62,8 @@ public class Train {
     public ArrayList<AssignedWagon> getWagons() {
         return assignedWagons;
     }
+
+    public void setWagons(ArrayList<AssignedWagon> wagons) {
+        this.assignedWagons = wagons;
+    }
 }

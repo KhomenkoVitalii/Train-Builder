@@ -34,14 +34,18 @@ public class AssignedWagon extends Wagon {
                 ", number " + number;
     }
 
+    // TODO: 27.01.2023  Change realization
     public String toSql() {
         return "('" + id + "', '" + wagonType.getId() + "', " + number + ")";
     }
-    // TODO: 27.01.2023  Change realization
+
     public String toFile() {
-        return id + " " + wagonType.getId() + " " + number;
+        return id + " " + wagonType.toFile() + " " + assignedId + " " + trainId + " " + number;
     }
 
+    public UUID getAssignedId() {
+        return assignedId;
+    }
 
     public UUID getTrainId() {
         return trainId;

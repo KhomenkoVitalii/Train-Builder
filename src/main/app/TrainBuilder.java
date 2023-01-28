@@ -12,15 +12,16 @@ import java.util.UUID;
 
 public class TrainBuilder {
     // Our trains
-    private ArrayList<Train> trains;
+    protected ArrayList<Train> trains;
 
     // Види вагонів, які є у наявності
-    private ArrayList<Wagon> wagons;
+    protected ArrayList<Wagon> wagons;
 
     // Список вагонів, на основі видів вагонів <Wagon>, що вже залучені до потягу
     private ArrayList<AssignedWagon> assignedWagons;
 
     public TrainBuilder() {
+        TransportApp.initLogger();
         TransportApp.logger.info("Starts initialize TrainBuilder");
         trains = FileManager.readTrains();
         wagons = FileManager.readWagons();
@@ -46,29 +47,32 @@ public class TrainBuilder {
         ArrayList<AssignedWagon> assignedWagons = new ArrayList<>();
 
         TransportApp.logger.info("Getting and writing in ArrayList AssignedWagon's");
-        var wagon = countWagonsNum(ordinaryWagon, Math.round(expectedSeatsNumber * coefficients[0]), train.getId());
+        var wagon = createAssignedWagon(ordinaryWagon, Math.round(expectedSeatsNumber * coefficients[0]), train.getId());
         if (wagon != null) {
             assignedWagons.add(wagon);
         }
-        wagon = countWagonsNum(businessWagon, Math.round(expectedSeatsNumber * coefficients[1]), train.getId());
+        wagon = createAssignedWagon(businessWagon, Math.round(expectedSeatsNumber * coefficients[1]), train.getId());
         if (wagon != null) {
             assignedWagons.add(wagon);
         }
-        wagon = countWagonsNum(vipWagon, Math.round(expectedSeatsNumber * coefficients[2]), train.getId());
+        wagon = createAssignedWagon(vipWagon, Math.round(expectedSeatsNumber * coefficients[2]), train.getId());
         if (wagon != null) {
             assignedWagons.add(wagon);
         }
 
         TransportApp.logger.info("Assign them to the train");
         train.assignWagons(assignedWagons);
+        trains.add(train);
     }
 
     public void deleteTrain(UUID id) {
         TransportApp.logger.info("'deleteTrain' was executed");
         for (int i = 0; i < trains.size(); i++) {
             if (trains.get(i).getId().compareTo(id) == 0) {
-                assignedWagons.removeAll(trains.get(i).getWagons());
-                trains.remove(i);
+                if (assignedWagons.size() != 0) {
+                    assignedWagons.removeAll(trains.get(i).getWagons());
+                    trains.remove(i);
+                }
                 TransportApp.logger.info("train was removed!");
                 break;
             }
@@ -87,10 +91,15 @@ public class TrainBuilder {
     }
 
     public void addWagonToTheTrain(UUID trainId, UUID wagonId, int number) {
+        TransportApp.logger.info("'addWagonToTheTrain' executed");
         for (Train train : trains) {
             if (train.getId().compareTo(trainId) == 0) {
+                TransportApp.logger.info("Find train");
                 for (var wagon : wagons) {
                     if (wagon.getWagonId().compareTo(wagonId) == 0) {
+                        if (train.getWagons() == null) {
+                            train.setWagons(new ArrayList<>());
+                        }
                         train.getWagons().add(new AssignedWagon(wagon, trainId, number));
                         TransportApp.logger.info("Wagon was added");
                     }
@@ -101,8 +110,8 @@ public class TrainBuilder {
 
     public void removeWagonFromTheTrain(UUID trainId, UUID assignedId) {
         for (Train train : trains) {
-            if (trainId == train.getId()) {
-                train.getWagons().removeIf(wagon -> wagon.getWagonId().compareTo(assignedId) == 0);
+            if (train.getId().compareTo(trainId) == 0) {
+                train.getWagons().removeIf(wagon -> wagon.getAssignedId().compareTo(assignedId) == 0);
                 TransportApp.logger.info("Wagon was deleted");
             }
         }
@@ -144,7 +153,7 @@ public class TrainBuilder {
                         wagons.set(j, temp);
                     }
                     // Якщо повинно стояти на останньому
-                    else if (wagons.get(j).getWagonType().getComfortTypeName() == lastType) {
+                    else if (Objects.equals(wagons.get(j).getWagonType().getComfortTypeName(), lastType)) {
                         var temp = wagons.get(2);
                         wagons.set(2, wagons.get(j));
                         wagons.set(j, temp);
@@ -159,19 +168,6 @@ public class TrainBuilder {
             }
         }
         TransportApp.logger.info("method 'changeTheOrderByComfortStatus' finished his work");
-    }
-
-    private void assignWagonsToTheTrains(ArrayList<Train> trains, ArrayList<AssignedWagon> wagons) {
-        TransportApp.logger.info("Starts assigning wagons to the trains");
-        for (Train train : trains) {
-            ArrayList<AssignedWagon> temp = new ArrayList<>();
-            for (AssignedWagon wagon : wagons) {
-                if (train.getId() == wagon.getTrainId()) {
-                    temp.add(wagon);
-                }
-            }
-            train.assignWagons(temp);
-        }
     }
 
     public ArrayList<Wagon> findWagonsBySeatsNumber(int minValue, int maxValue) {
@@ -206,9 +202,23 @@ public class TrainBuilder {
         wagons.forEach(wagon -> System.out.println(wagon.toString()));
     }
 
+
+    protected void assignWagonsToTheTrains(ArrayList<Train> trains, ArrayList<AssignedWagon> wagons) {
+        TransportApp.logger.info("Starts assigning wagons to the trains");
+        for (Train train : trains) {
+            ArrayList<AssignedWagon> temp = new ArrayList<>();
+            for (AssignedWagon wagon : wagons) {
+                if (train.getId() == wagon.getTrainId()) {
+                    temp.add(wagon);
+                }
+            }
+            train.assignWagons(temp);
+        }
+    }
+
     /* ON CREATE TRAIN METHODS */
 
-    private @Nullable AssignedWagon countWagonsNum(Wagon wagon, int seatsNumber, UUID trainId) {
+    protected @Nullable AssignedWagon createAssignedWagon(Wagon wagon, int seatsNumber, UUID trainId) {
         if (wagon != null) {
             int wagonsNumber = Math.round(seatsNumber / wagon.getWagonType().getSeatsNumber());
             return new AssignedWagon(wagon, trainId, wagonsNumber);
@@ -216,7 +226,7 @@ public class TrainBuilder {
         return null;
     }
 
-    private @Nullable Wagon chooseWagon(ArrayList<Wagon> wagons) {
+    protected @Nullable Wagon chooseWagon(ArrayList<Wagon> wagons) {
         TransportApp.logger.info("Choosing wagon with better proportion (seats/weight per person)");
         if (wagons.isEmpty()) {
             TransportApp.logger.info("Wagons are empty!");
@@ -249,7 +259,7 @@ public class TrainBuilder {
         return null;
     }
 
-    private ArrayList<Wagon> getWagonsByComfort(ArrayList<Wagon> wagons, String comfortType) {
+    protected ArrayList<Wagon> getWagonsByComfort(ArrayList<Wagon> wagons, String comfortType) {
         TransportApp.logger.info("Sorting wagons by the same comfort type");
         var result = new ArrayList<Wagon>();
         for (var wagon : wagons) {

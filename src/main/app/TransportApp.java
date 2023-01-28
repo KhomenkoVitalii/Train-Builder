@@ -10,11 +10,11 @@ import java.util.logging.SimpleFormatter;
 public class TransportApp {
     public static Logger logger;
 
-    TransportApp() {
+    public TransportApp() {
         initLogger();
     }
 
-    private void initLogger() {
+    public static void initLogger() {
         logger = Logger.getLogger("TransportAppLogger");
         try {
             FileHandler fileHandler = new FileHandler(Settings.logsFilePath);
