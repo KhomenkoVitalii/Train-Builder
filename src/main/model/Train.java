@@ -16,13 +16,6 @@ public class Train {
         this.assignedWagons = null;
     }
 
-    public Train(Train train) {
-        this.id = train.getId();
-        this.name = train.getName();
-        this.code = train.getCode();
-        this.assignedWagons = train.getWagons();
-    }
-
     public Train(UUID id, String name, String code) {
         this.id = id;
         this.name = name;

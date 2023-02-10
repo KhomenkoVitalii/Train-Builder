@@ -15,13 +15,6 @@ public class WagonType {
         this.maxThingsWeightPerPerson = maxThingsWeightPerPerson;
     }
 
-    public WagonType(WagonType wagonType) {
-        this.id = wagonType.getId();
-        this.comfortType = wagonType.comfortType;
-        this.seatsNumber = wagonType.getSeatsNumber();
-        this.maxThingsWeightPerPerson = wagonType.getMaxThingsWeightPerPerson();
-    }
-
     public WagonType(UUID id, ComfortTypes comfortType, int seatsNumber, float maxThingsWeightPerPerson) {
         this.id = id;
         this.comfortType = comfortType;
@@ -32,7 +25,7 @@ public class WagonType {
     @Override
     public String toString() {
         return "Comfort type: " + comfortType.name() + ", seats number: " + seatsNumber +
-            ", max weight of things per person";
+            ", max weight of things per person: " + getMaxThingsWeightPerPerson();
     }
 
     public String toSql() {

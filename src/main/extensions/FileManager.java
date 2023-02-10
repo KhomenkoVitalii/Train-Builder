@@ -8,126 +8,94 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class FileManager {
     public static ArrayList<Train> readTrains() {
-        List<String> lines;
-
-        try {
-            lines = Files.readAllLines(Paths.get(Settings.trainsFilePath), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
-        }
-
         ArrayList<Train> array = new ArrayList<>();
-
         try {
-            FileReader reader = new FileReader(Settings.trainsFilePath);
-            BufferedReader bufferedReader = new BufferedReader(reader);
+            BufferedReader reader = new BufferedReader(new FileReader(Settings.trainsFilePath));
+            String currentLine = "";
+            while (currentLine != null) {
+                currentLine = reader.readLine();
+                if (currentLine != null) {
+                    String[] data = currentLine.split(" ");
 
-            for (int i = 0; i < lines.size(); i++) {
-                String[] data = bufferedReader.readLine().split(" ");
-
-                Train train = new Train(
-                        UUID.fromString(data[0]), // ID
-                        data[1], // Name
-                        data[2] // Code
-                );
-                array.add(train);
+                    Train train = new Train(
+                            UUID.fromString(data[0]), // ID
+                            data[1], // Name
+                            data[2] // Code
+                    );
+                    array.add(train);
+                }
             }
         } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
+            TransportApp.logger.severe("Error while reading trains!");
+            TransportApp.logger.severe(e.getMessage());
         }
-
         return array;
     }
 
     public static ArrayList<Wagon> readWagons() {
-        List<String> lines;
-
-        try {
-            lines = Files.readAllLines(Paths.get(Settings.wagonsFilePath), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
-        }
-
         ArrayList<Wagon> array = new ArrayList<>();
-
         try {
-            FileReader reader = new FileReader(Settings.wagonsFilePath);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            for (int i = 0; i < lines.size(); i++) {
-                String[] data = bufferedReader.readLine().split(" ");
-
-                Wagon wagon = new Wagon(
-                        UUID.fromString(data[0]), // ID
-                        new WagonType(
-                                UUID.fromString(data[1]), // Wagon type id
-                                ComfortTypes.valueOf(data[2]), // ComfortType
-                                Integer.parseInt(data[3]), // seatsNumber
-                                Float.parseFloat(data[4]) // Things weight per person
-                        ) // WagonType
-                );
-                array.add(wagon);
+            BufferedReader reader = new BufferedReader(new FileReader(Settings.wagonsFilePath));
+            String currentLine = "";
+            while (currentLine != null) {
+                currentLine = reader.readLine();
+                if (currentLine != null) {
+                    String[] data = currentLine.split(" ");
+                    Wagon wagon = new Wagon(
+                            UUID.fromString(data[0]), // ID
+                            new WagonType(
+                                    UUID.fromString(data[1]), // Wagon type id
+                                    ComfortTypes.valueOf(data[2]), // ComfortType
+                                    Integer.parseInt(data[3]), // seatsNumber
+                                    Float.parseFloat(data[4]) // Things weight per person
+                            ) // WagonType
+                    );
+                    array.add(wagon);
+                }
             }
         } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
+            TransportApp.logger.severe("Error while reading wagons!");
+            TransportApp.logger.severe(e.getMessage());
         }
-
         return array;
     }
 
     public static ArrayList<AssignedWagon> readAssignedWagons() {
-        List<String> lines;
-
-        try {
-            lines = Files.readAllLines(Paths.get(Settings.assignedFilePath), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
-        }
-
         ArrayList<AssignedWagon> array = new ArrayList<>();
-
         try {
-            FileReader reader = new FileReader(Settings.assignedFilePath);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            for (int i = 0; i < lines.size(); i++) {
-                String[] data = bufferedReader.readLine().split(" ");
-
-                AssignedWagon wagon = new AssignedWagon(
-                        UUID.fromString(data[0]),
-                        new WagonType(
-                                UUID.fromString(data[1]), // Wagon type id
-                                ComfortTypes.valueOf(data[2]), // ComfortType
-                                Integer.parseInt(data[3]), // seatsNumber
-                                Float.parseFloat(data[4]) // Things weight per person
-                        ),
-                        UUID.fromString(data[5]), // this.id
-                        UUID.fromString(data[6]), // train id
-                        Integer.parseInt(data[7]) // Number
-                );
-                array.add(wagon);
+            BufferedReader reader = new BufferedReader(new FileReader(Settings.assignedFilePath));
+            String currentLine = "";
+            while (currentLine != null) {
+                currentLine = reader.readLine();
+                if (currentLine != null) {
+                    String[] data = currentLine.split(" ");
+                    AssignedWagon wagon = new AssignedWagon(
+                            UUID.fromString(data[0]),
+                            new WagonType(
+                                    UUID.fromString(data[1]), // Wagon type id
+                                    ComfortTypes.valueOf(data[2]), // ComfortType
+                                    Integer.parseInt(data[3]), // seatsNumber
+                                    Float.parseFloat(data[4]) // Things weight per person
+                            ),
+                            UUID.fromString(data[5]), // this.id
+                            UUID.fromString(data[6]), // train id
+                            Integer.parseInt(data[7]) // Number
+                    );
+                    array.add(wagon);
+                }
             }
         } catch (IOException e) {
-            TransportApp.logger.warning("IOEXCEPTION! " + e.getMessage());
-            return new ArrayList<>();
+            TransportApp.logger.severe("Error while reading trains!");
+            TransportApp.logger.severe(e.getMessage());
         }
-
         return array;
     }
+
 
     public static void saveData(ArrayList<Train> trains, ArrayList<Wagon> wagons) {
         saveTrains(trains);
@@ -148,7 +116,7 @@ public class FileManager {
             TransportApp.logger.info("'saveTrains' was finished success!");
             return true;
         } catch (IOException e) {
-            TransportApp.logger.warning("Cannot save 'CoffeeData'!\n" + e.getMessage());
+            TransportApp.logger.severe("Cannot save 'CoffeeData'!\n" + e.getMessage());
             return false;
         }
     }
@@ -158,8 +126,8 @@ public class FileManager {
         try {
             FileWriter writer = new FileWriter(Settings.assignedFilePath);
 
-            for (Train train: trains) {
-                for (AssignedWagon wagons: train.getWagons()) {
+            for (Train train : trains) {
+                for (AssignedWagon wagons : train.getWagons()) {
                     writer.write(wagons.toFile());
                 }
             }
@@ -168,7 +136,7 @@ public class FileManager {
             TransportApp.logger.info("'saveAssignedWagons' was finished success!");
             return true;
         } catch (IOException e) {
-            TransportApp.logger.warning("Cannot save  'VansData'!" + e.getMessage());
+            TransportApp.logger.severe("Cannot save  'VansData'!" + e.getMessage());
             return false;
         }
     }
@@ -178,7 +146,7 @@ public class FileManager {
         try {
             FileWriter writer = new FileWriter(Settings.wagonsFilePath);
 
-            for (Wagon wagon: wagons) {
+            for (Wagon wagon : wagons) {
                 writer.write(wagon.toFile());
             }
 
@@ -186,7 +154,7 @@ public class FileManager {
             TransportApp.logger.info("'saveWagons' was finished success!");
             return true;
         } catch (IOException e) {
-            TransportApp.logger.warning("Cannot save 'VansGoods'!" + e.getMessage());
+            TransportApp.logger.severe("Cannot save 'VansGoods'!" + e.getMessage());
             return false;
         }
     }

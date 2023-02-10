@@ -34,7 +34,6 @@ public class AssignedWagon extends Wagon {
                 "id: Wagon id: " + id;
     }
 
-    // TODO: 27.01.2023  Change realization
     public String toSql() {
         return "('" + id + "', '" + wagonType.getId() + "', " + number + ")";
     }

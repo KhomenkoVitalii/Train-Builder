@@ -73,7 +73,7 @@ public class TrainBuilder {
                     assignedWagons.removeAll(trains.get(i).getWagons());
                     trains.remove(i);
                 }
-                TransportApp.logger.info("train was removed!");
+                TransportApp.logger.info("train was deleted!");
                 break;
             }
         }
@@ -86,7 +86,7 @@ public class TrainBuilder {
     }
 
     public void deleteWagon(UUID id) {
-        wagons.removeIf(wagon -> wagon.getWagonId() == id);
+        wagons.removeIf(wagon -> wagon.getWagonId().compareTo(id) == 0);
         TransportApp.logger.info("Wagon was deleted");
     }
 
@@ -140,36 +140,6 @@ public class TrainBuilder {
         }
     }
 
-    public void changeTheOrderByComfortStatus(UUID trainId, String firstType, String lastType) {
-        TransportApp.logger.info("Starts changing the order by comfort status");
-        for (Train train : trains) {
-            if (train.getId() == trainId) {
-                var wagons = train.getWagons();
-                for (int j = 0; j < wagons.size(); j++) {
-                    //Якщо повинно стояти на першому місці
-                    if (Objects.equals(wagons.get(j).getWagonType().getComfortTypeName(), firstType)) {
-                        var temp = wagons.get(0);
-                        wagons.set(0, wagons.get(j));
-                        wagons.set(j, temp);
-                    }
-                    // Якщо повинно стояти на останньому
-                    else if (Objects.equals(wagons.get(j).getWagonType().getComfortTypeName(), lastType)) {
-                        var temp = wagons.get(2);
-                        wagons.set(2, wagons.get(j));
-                        wagons.set(j, temp);
-                    }
-                    // Якщо повинно стояти на другому
-                    else {
-                        var temp = wagons.get(1);
-                        wagons.set(1, wagons.get(j));
-                        wagons.set(j, temp);
-                    }
-                }
-            }
-        }
-        TransportApp.logger.info("method 'changeTheOrderByComfortStatus' finished his work");
-    }
-
     public ArrayList<Wagon> findWagonsBySeatsNumber(int minValue, int maxValue) {
         ArrayList<Wagon> result = new ArrayList<>();
         for (Wagon wagon : wagons) {
@@ -208,7 +178,7 @@ public class TrainBuilder {
         for (Train train : trains) {
             ArrayList<AssignedWagon> temp = new ArrayList<>();
             for (AssignedWagon wagon : wagons) {
-                if (train.getId() == wagon.getTrainId()) {
+                if (train.getId().compareTo(wagon.getTrainId()) == 0) {
                     temp.add(wagon);
                 }
             }
