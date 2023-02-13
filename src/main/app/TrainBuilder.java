@@ -21,7 +21,9 @@ public class TrainBuilder {
     private ArrayList<AssignedWagon> assignedWagons;
 
     public TrainBuilder() {
-        TransportApp.initLogger();
+        if (TransportApp.logger == null) {
+            TransportApp.initLogger();
+        }
         TransportApp.logger.info("Starts initialize TrainBuilder");
         trains = FileManager.readTrains();
         wagons = FileManager.readWagons();
