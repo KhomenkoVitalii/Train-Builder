@@ -28,14 +28,21 @@ public class AssignedWagon extends Wagon {
         this.number = number;
     }
 
-    @Override
-    public String toString() {
-        return "Wagon type: " + wagonType + ", wagons number " + number + "\n\t" +
-                "id: Wagon id: " + id;
+    public AssignedWagon(UUID assignedId, Wagon wagon, UUID trainId, int number) {
+        super(wagon);
+        this.assignedId = assignedId;
+        this.trainId = trainId;
+        this.number = number;
     }
 
-    public String toSql() {
-        return "('" + id + "', '" + wagonType.getId() + "', " + number + ")";
+    @Override
+    public String toString() {
+        return super.toString() + " - " + number + " number";
+    }
+
+    @Override
+    public String toSqlValues() {
+        return "('" + id + "', '" + trainId + "', '" + getWagonId() + "', " + number + ")";
     }
 
     public String toFile() {
@@ -52,5 +59,10 @@ public class AssignedWagon extends Wagon {
 
     public int getNumber() {
         return number;
+    }
+
+    @Override
+    public AssignedWagon copy() {
+        return new AssignedWagon(this);
     }
 }

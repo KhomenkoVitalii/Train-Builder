@@ -1,7 +1,7 @@
 package test.commands;
 
 import main.app.TrainBuilder;
-import main.commands.assign.wagon.AddAssignWagonCommand;
+import main.commands.assign.wagon.AssignWagonCommand;
 import main.commands.assign.wagon.RemoveAssignWagons;
 import main.commands.assign.wagon.SortWagonsCommand;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public class CommandAssignedWagonsTest {
     TrainBuilder trainBuilder;
 
-    AddAssignWagonCommand addAssignWagonCommand;
+    AssignWagonCommand assignWagonCommand;
     RemoveAssignWagons removeAssignWagons;
     SortWagonsCommand sortWagonsCommand;
 
@@ -20,14 +20,14 @@ public class CommandAssignedWagonsTest {
     public void setUp() {
         trainBuilder = new TrainBuilder();
 
-        addAssignWagonCommand = new AddAssignWagonCommand(trainBuilder, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "10");
+        assignWagonCommand = new AssignWagonCommand(trainBuilder, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "10");
         removeAssignWagons = new RemoveAssignWagons(trainBuilder, UUID.randomUUID().toString(), UUID.randomUUID().toString());
         sortWagonsCommand = new SortWagonsCommand(trainBuilder, UUID.randomUUID().toString());
     }
 
     @Test
     public void setAddAssignWagonCommandTest() {
-        addAssignWagonCommand.execute();
+        assignWagonCommand.execute();
     }
 
     @Test

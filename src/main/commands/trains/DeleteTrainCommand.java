@@ -8,9 +8,15 @@ import java.util.UUID;
 
 public class DeleteTrainCommand extends Command {
     private final UUID id;
+
     public DeleteTrainCommand(TrainBuilder trainBuilder, String id) {
         super(trainBuilder);
         this.id = Extensions.parseId(id);
+    }
+
+    public DeleteTrainCommand(TrainBuilder trainBuilder, UUID id) {
+        super(trainBuilder);
+        this.id = id;
     }
 
     @Override

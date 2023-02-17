@@ -13,7 +13,7 @@ public class Wagon {
 
     public Wagon(Wagon wagon) {
         this.id = wagon.getWagonId();
-        this.wagonType = wagon.getWagonType();
+        this.wagonType = new WagonType(wagon.getWagonTypeId(), wagon.getComfortType(), wagon.getSeatsNumber(), wagon.getWeightPerPerson());
     }
 
     public Wagon(UUID id, WagonType type) {
@@ -25,17 +25,40 @@ public class Wagon {
         return id;
     }
 
-    public WagonType getWagonType() {
-        return wagonType;
+    public UUID getWagonTypeId() {
+        return wagonType.getId();
+    }
+
+    public String getWagonTypeName() {
+        return wagonType.getComfortTypeName();
+    }
+
+    public ComfortTypes getComfortType() {
+        return wagonType.getComfortType();
+    }
+
+    public int getSeatsNumber() {
+        return wagonType.getSeatsNumber();
+    }
+
+    public float getWeightPerPerson() {
+        return wagonType.getMaxThingsWeightPerPerson();
     }
 
     @Override
     public String toString() {
-        return "Wagon type: " + wagonType + "\n\t" +
-                "id: " + id;
+        return getWagonTypeName() + " wagon - " + getSeatsNumber() + " seats - " + getWeightPerPerson() + "kg/person";
     }
 
     public String toFile() {
         return id + " " + wagonType.toFile() + "\n";
+    }
+
+    public Wagon copy() {
+        return new Wagon(this);
+    }
+
+    public String toSqlValues() {
+        return "('" + id + "', '" + getWagonTypeName() + "', '" + getSeatsNumber() + "', " + getWeightPerPerson() + ")";
     }
 }

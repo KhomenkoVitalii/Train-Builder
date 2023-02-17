@@ -16,6 +16,12 @@ public class RemoveAssignWagons extends Command {
         this.assignedId = Extensions.parseId(assignedId);
     }
 
+    public RemoveAssignWagons(TrainBuilder trainBuilder, UUID trainId, UUID assignedId) {
+        super(trainBuilder);
+        this.trainId = trainId;
+        this.assignedId = assignedId;
+    }
+
     @Override
     public void execute() {
         if (trainId != null && assignedId != null) {

@@ -1,4 +1,4 @@
-package tets;
+package test;
 
 import main.app.TransportApp;
 import main.extensions.FileManager;

@@ -14,6 +14,11 @@ public class SortWagonsCommand extends Command {
         this.trainId = Extensions.parseId(trainId);
     }
 
+    public SortWagonsCommand(TrainBuilder trainBuilder, UUID trainId) {
+        super(trainBuilder);
+        this.trainId =  trainId;
+    }
+
     @Override
     public void execute() {
         if (trainId != null) {

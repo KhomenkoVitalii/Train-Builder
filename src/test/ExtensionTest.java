@@ -1,4 +1,4 @@
-package tets;
+package test;
 
 import main.extensions.Extensions;
 import org.junit.Before;

@@ -29,11 +29,10 @@ public class Train {
 
     @Override
     public String toString() {
-        return "Name: " + name + ", code: " + code + "\n\t" +
-                "Id: " + id;
+        return "Name: " + name + ", code: " + code;
     }
 
-    public String toSQL() {
+    public String toSqlValues() {
         return "('" + id + "', '" + name + "', '" + code + "')";
     }
 
@@ -59,5 +58,13 @@ public class Train {
 
     public void setWagons(ArrayList<AssignedWagon> wagons) {
         this.assignedWagons = wagons;
+    }
+
+    public Train copy() {
+        var temp = new Train(this.id, this.name, this.code);
+        ArrayList<AssignedWagon> tempArray = new ArrayList<>();
+        assignedWagons.forEach(assignedWagon -> tempArray.add(assignedWagon.copy()));
+        temp.setWagons(tempArray);
+        return temp;
     }
 }

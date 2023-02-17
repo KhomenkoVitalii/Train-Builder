@@ -3,7 +3,7 @@ package main.app;
 import main.Settings;
 import main.commands.Command;
 import main.commands.SaveCommand;
-import main.commands.assign.wagon.AddAssignWagonCommand;
+import main.commands.assign.wagon.AssignWagonCommand;
 import main.commands.assign.wagon.RemoveAssignWagons;
 import main.commands.assign.wagon.SortWagonsCommand;
 import main.commands.prints.PrintTrainCommand;
@@ -14,7 +14,10 @@ import main.commands.trains.DeleteTrainCommand;
 import main.commands.wagons.AddWagonCommand;
 import main.commands.wagons.DeleteWagonCommand;
 import main.commands.wagons.FindWagonsSeatsNumberCommand;
+import main.gui.MainFrame;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
@@ -28,6 +31,16 @@ public class TransportApp {
     public TransportApp() {
         initLogger();
         trainBuilder = new TrainBuilder();
+    }
+
+    public void initGUI() {
+        JFrame frame = new JFrame("Train builder");
+        frame.setContentPane(new MainFrame(trainBuilder).getMainPanel());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(500, 500));
+        frame.setLocationRelativeTo(null);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public void initUI() {
@@ -123,7 +136,7 @@ public class TransportApp {
                     System.out.print("Enter number of wagons: ");
                     String number = scanner.next();
 
-                    executeCommand(new AddAssignWagonCommand(trainBuilder, trainId, wagonId, number));
+                    executeCommand(new AssignWagonCommand(trainBuilder, trainId, wagonId, number));
                     System.out.println();
                 }
 

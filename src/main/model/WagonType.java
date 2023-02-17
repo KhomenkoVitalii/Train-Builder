@@ -28,10 +28,6 @@ public class WagonType {
             ", max weight of things per person: " + getMaxThingsWeightPerPerson();
     }
 
-    public String toSql() {
-        return "('" + id + "', '" + comfortType.name() + "', " + seatsNumber + ", " + maxThingsWeightPerPerson + ")";
-    }
-
     public String toFile() {
         return id + " " + comfortType.name() + " " + seatsNumber + " " + maxThingsWeightPerPerson;
     }

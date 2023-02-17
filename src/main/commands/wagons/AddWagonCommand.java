@@ -17,6 +17,13 @@ public class AddWagonCommand extends Command {
         this.thingsWeight = Extensions.parseFloat(thingsWeight);
     }
 
+    public AddWagonCommand(TrainBuilder trainBuilder, ComfortTypes type, String seatsNumber, String thingsWeight) {
+        super(trainBuilder);
+        this.type = type;
+        this.seatsNumber = Extensions.parseInt(seatsNumber);
+        this.thingsWeight = Extensions.parseFloat(thingsWeight);
+    }
+
     @Override
     public void execute() {
         trainBuilder.addWagon(type, seatsNumber, thingsWeight);

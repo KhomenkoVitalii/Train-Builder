@@ -13,6 +13,11 @@ public class DeleteWagonCommand extends Command {
         this.id = Extensions.parseId(id);
     }
 
+    public DeleteWagonCommand(TrainBuilder trainBuilder, UUID id) {
+        super(trainBuilder);
+        this.id = id;
+    }
+
     @Override
     public void execute() {
         if (id != null) {
